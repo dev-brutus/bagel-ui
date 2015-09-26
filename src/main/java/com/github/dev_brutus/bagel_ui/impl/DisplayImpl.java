@@ -5,13 +5,15 @@ import com.github.dev_brutus.bagel_ui.api.Coord;
 import com.github.dev_brutus.bagel_ui.api.Display;
 import com.github.dev_brutus.bagel_ui.api.SymbolInfo;
 
+import java.io.IOException;
+
 /**
  *
  */
 public class DisplayImpl implements Display {
     private DisplayWindow displayWindow;
 
-    public void start() {
+    public void start() throws IOException {
         displayWindow = new DisplayWindow(this);
     }
 

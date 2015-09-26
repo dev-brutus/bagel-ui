@@ -6,6 +6,7 @@ package com.github.dev_brutus.bagel_ui.api;
 public class Coord {
     public final int x;
     public final int y;
+    private String s;
 
     public Coord(int x, int y) {
         this.x = x;
@@ -34,9 +35,10 @@ public class Coord {
 
     @Override
     public String toString() {
-        return "Coord{" +
-                "x=" + x +
-                ", y=" + y +
-                '}';
+        if (s == null) {
+            s = "(" + x + "; " + y + ')';
+        }
+
+        return s;
     }
 }
