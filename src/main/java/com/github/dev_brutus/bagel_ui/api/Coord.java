@@ -13,6 +13,10 @@ public class Coord {
         this.y = y;
     }
 
+    public static Coord coord(int x, int y) {
+        return new Coord(x, y);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

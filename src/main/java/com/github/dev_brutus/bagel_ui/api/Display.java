@@ -1,9 +1,15 @@
 package com.github.dev_brutus.bagel_ui.api;
 
+import java.io.IOException;
+
 /**
  * Основной интерфейс дисплея
  */
 public interface Display {
+    void start() throws IOException;
+
+    void stop();
+
     Coord getMinSize();
 
     void setMinSize(Coord size);
@@ -16,9 +22,9 @@ public interface Display {
 
     void setSize(Coord size);
 
-    boolean isSizeable();
+    boolean isResizable();
 
-    void setSizeable();
+    void setResizable(boolean isResizable);
 
     byte getSymbol(Coord position);
 

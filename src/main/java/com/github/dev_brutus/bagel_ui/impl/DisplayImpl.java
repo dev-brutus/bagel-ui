@@ -7,59 +7,89 @@ import com.github.dev_brutus.bagel_ui.api.SymbolInfo;
 
 import java.io.IOException;
 
+import static com.github.dev_brutus.bagel_ui.api.Coord.coord;
+
 /**
- *
+ *  Релизует всё логику
  */
 public class DisplayImpl implements Display {
-    private DisplayWindow displayWindow;
+    private DisplayWindow displayWindow = new DisplayWindowStub();
+    private Coord size = coord(40, 25);
+    private Coord minSize;
+    private Coord maxSize;
+    private boolean isResizable = true;
 
+    @Override
     public void start() throws IOException {
-        displayWindow = new DisplayWindow(this);
+        displayWindow = new DisplayWindowImpl(this);
+        displayWindow.setSize(size);
     }
 
+    @Override
     public void stop() {
         displayWindow.dispose();
     }
 
-
-    @Override
-    public Coord getMinSize() {
-        return null;
-    }
-
-    @Override
-    public void setMinSize(Coord size) {
-
-    }
-
-    @Override
-    public Coord getMaxSize() {
-        return null;
-    }
-
-    @Override
-    public void setMaxSize(Coord size) {
-
-    }
-
     @Override
     public Coord getSize() {
-        return null;
+        return size;
     }
 
     @Override
     public void setSize(Coord size) {
+        if (isResizable) {
+            int x = size.x;
+            int y = size.y;
+            if (minSize != null) {
+                x = Math.max(minSize.x, x);
+                y = Math.max(minSize.y, y);
+            }
+            if (maxSize != null) {
+                x = Math.min(maxSize.x, x);
+                y = Math.min(maxSize.y, y);
+            }
 
+            this.size = coord(x, y);
+            displayWindow.setSize(this.size);
+        }
     }
 
     @Override
-    public boolean isSizeable() {
-        return false;
+    public boolean isResizable() {
+        return isResizable;
     }
 
     @Override
-    public void setSizeable() {
+    public void setResizable(boolean isResizable) {
+        this.isResizable = isResizable;
+    }
 
+    @Override
+    public Coord getMaxSize() {
+        return maxSize;
+    }
+
+    @Override
+    public void setMaxSize(Coord maxSize) {
+        this.maxSize = maxSize;
+        if (maxSize != null) {
+            this.size = (coord(Math.min(size.x, maxSize.x), Math.min(size.y, maxSize.y)));
+            displayWindow.setSize(this.size);
+        }
+    }
+
+    @Override
+    public Coord getMinSize() {
+        return minSize;
+    }
+
+    @Override
+    public void setMinSize(Coord minSize) {
+        this.minSize = minSize;
+        if (minSize != null) {
+            this.size = (coord(Math.max(size.x, minSize.x), Math.max(size.y, minSize.y)));
+            displayWindow.setSize(this.size);
+        }
     }
 
     @Override
@@ -143,13 +173,13 @@ public class DisplayImpl implements Display {
     }
 
     @Override
-    public void setViewPort(Coord coord) {
-
+    public Coord getViewPort() {
+        return null;
     }
 
     @Override
-    public Coord getViewPort() {
-        return null;
+    public void setViewPort(Coord coord) {
+
     }
 
     @Override
